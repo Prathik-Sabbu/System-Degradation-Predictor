@@ -58,11 +58,11 @@ SCALER_PARAMS: dict[str, dict] = {
 
 PANEL_ORDER = ["demand_cpu", "utilization_cpu", "saturation_cpu", "utilization_mem", "delay_cpi"]
 
-COL_DEMAND_CPU   = 0
-COL_UTIL_CPU     = 1
-COL_SAT_CPU      = 2
-COL_UTIL_MEM     = 3
-COL_DELAY_CPI    = 4
+COL_UTIL_MEM     = 0
+COL_DELAY_CPI    = 1
+COL_DEMAND_CPU   = 2
+COL_UTIL_CPU     = 3
+COL_SAT_CPU      = 4
 
 PANEL_COL = {
     "demand_cpu":      COL_DEMAND_CPU,
@@ -302,9 +302,8 @@ def build_stacked_chart(window: np.ndarray, node_id: str, step: int) -> plt.Figu
     axes[-1].set_xticklabels(tick_labs, fontsize=7, color="#6c7293")
     axes[-1].set_xlabel("Historical Steps (5-Min Intervals)", fontsize=7.5, color="#6c7293", labelpad=6)
     fig.suptitle(f"{node_id}   ·   step {step:02d} / 60", fontsize=8.5, color="#6c7293", x=0.01, ha="left", y=1.01)
-    fig.tight_layout()
+    fig.subplots_adjust(top=0.95, bottom=0.10, left=0.08, right=0.92)
     return fig
-
 
 REMEDIATION_STEPS = [
     "**Halted:** New task scheduling to this node has been blocked (11.82-minute buffer active).",
@@ -351,10 +350,7 @@ def render_risk_panel(risk_slot, score: float, step: int) -> None:
             st.markdown(f"<div style='font-size:0.78rem;color:#4a4f68;margin-top:8px;'>Remediation playbook activates when probability exceeds {int(RISK_THRESHOLD*100)} %.</div>", unsafe_allow_html=True)
 
 
-# ---------------------------------------------------------------------------
 # Core Control Flow Engine
-# ---------------------------------------------------------------------------
-
 def run_streaming_loop(tensor, node_id, speed, chart_slot, metrics_slot, risk_slot, model) -> None:
     step = 1
     while True:
@@ -363,7 +359,7 @@ def run_streaming_loop(tensor, node_id, speed, chart_slot, metrics_slot, risk_sl
         render_metrics_grid(window, metrics_slot)
         fig = build_stacked_chart(window, node_id, step)
         with chart_slot:
-            st.pyplot(fig, use_container_width=True)
+            st.pyplot(fig, width="stretch")
         plt.close(fig)
 
         score = run_inference(model, window)
