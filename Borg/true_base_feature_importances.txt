@@ -1,0 +1,15 @@
+ev_req_cpu: 23.54%
+ev_priority: 10.14%
+ev_num_constraints: 9.42%
+us_assigned_mem: 6.32%
+us_cpi: 5.96%
+us_page_cache_mem: 5.92%
+us_avg_mem: 5.82%
+us_avg_cpu: 5.28%
+us_mapi: 5.09%
+us_sample_rate: 4.72%
+us_cpu_dist_tail: 4.66%
+us_max_cpu: 4.29%
+ev_req_mem: 3.87%
+us_rand_cpu: 3.81%
+ev_missing_type: 1.17%
