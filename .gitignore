@@ -1,8 +1,5 @@
 /Data
 final_balanced_cnn.keras
-node01_healthy.npy
-node02_healthy.npy
-node03_failure.npy
-node04_failure.npy
+/nodes
 __pycache__/
 results/
